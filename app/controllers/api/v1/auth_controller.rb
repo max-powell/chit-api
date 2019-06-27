@@ -7,7 +7,6 @@ class Api::V1::AuthController < ApplicationController
       token = encode_token(user_id: user.id)
       render json: {user: user, jwt: token}
     else
-      byebug
       render json: {message: 'Invalid username or password'}
     end
   end

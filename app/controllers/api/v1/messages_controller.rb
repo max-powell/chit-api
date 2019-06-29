@@ -6,7 +6,8 @@ class Api::V1::MessagesController < ApplicationController
     message.chat = chat
 
     if message.save
-      MessagesChannel.broadcast_to chat, MessageSerialzer.new(message)
+      serialized_message = ActiveModelSerializers::SerializableResource.new(message, {serializer: MessageSerializer}).as_json
+      MessagesChannel.broadcast_to chat, serialized_message
       head :ok
     else
       render json: {error: 'Unable to send message'}

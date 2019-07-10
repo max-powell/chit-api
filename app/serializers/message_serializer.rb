@@ -1,8 +1,5 @@
 class MessageSerializer < ActiveModel::Serializer
-  attributes :id, :text, :current_user?, :created_at
+  attributes :id, :text, :chat_id, :created_at
   belongs_to :user, serializer: SenderSerializer
 
-  def current_user?
-    !!(object.user == current_user)
-  end
 end

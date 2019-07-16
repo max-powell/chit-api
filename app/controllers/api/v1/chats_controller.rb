@@ -6,6 +6,7 @@ class Api::V1::ChatsController < ApplicationController
   def create
     chat = Chat.create(chat_params)
     if chat.valid?
+      chat.users << current_user
       render json: chat, include: ['messages', 'messages.user']
     else
       render json: {error: chat.errors.full_messages}

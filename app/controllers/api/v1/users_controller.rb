@@ -6,7 +6,10 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def index
-    render json: User.all.reject{|u| u == current_user}, each_serializer: SenderSerializer
+    users = User.all.reject { |u|
+      u == current_user
+    }.sort_by{ |u| u[:username]}
+    render json: users, each_serializer: SenderSerializer
   end
 
   def create

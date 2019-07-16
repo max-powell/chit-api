@@ -5,6 +5,10 @@ class Api::V1::UsersController < ApplicationController
     render json: current_user
   end
 
+  def index
+    render json: User.all.reject{|u| u == current_user}
+  end
+
   def create
     user = User.create(user_params)
     if user.valid?

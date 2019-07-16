@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       resources :chats, only: [:index, :create] do
         resources :messages, only: [:create]
       end
-      resources :users, only: :create
+      resources :users, only: [:index, :create]
 
       post '/login', to: 'auth#create'
       get '/profile', to: 'users#profile'

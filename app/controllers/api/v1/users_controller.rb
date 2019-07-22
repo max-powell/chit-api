@@ -8,7 +8,7 @@ class Api::V1::UsersController < ApplicationController
   def index
     users = User.all.reject { |u|
       u == current_user
-    }.sort_by{ |u| u[:username]}
+    }.sort_by{ |u| u[:username].downcase}
     render json: users, each_serializer: SenderSerializer
   end
 

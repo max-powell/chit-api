@@ -9,7 +9,7 @@ class Api::V1::UsersController < ApplicationController
     users = User.all.reject { |u|
       u == current_user
     }.sort_by{ |u| u[:username].downcase}
-    render json: current_user
+    render json: [current_user]
   end
 
   def create

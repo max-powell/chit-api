@@ -9,13 +9,14 @@ class Api::V1::UsersController < ApplicationController
     users = User.all.reject { |u|
       u == current_user
     }.sort_by{ |u| u[:username].downcase}
-    render json: users, each_serializer: SenderSerializer
+    render json: users
+    #, each_serializer: SenderSerializer
   end
 
   def create
     user = User.create(user_params)
     if user.valid?
-      token = encode_token(user_id: user.id)
+      token = encode_token(user: user)
       render json: {user: user, jwt: token}
     else
       render json: {error: user.errors.full_messages}

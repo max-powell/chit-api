@@ -2,7 +2,6 @@ class ApplicationController < ActionController::API
   before_action :authorised
 
   def encode_token(payload)
-    byebug
     JWT.encode(payload, Rails.application.credentials.dig(:jwt_secret))
   end
 

@@ -2,17 +2,17 @@ class Api::V1::MessagesController < ApplicationController
   before_action :find_chat
 
   def index
-    render json: chat.messages
+    render json: @chat.messages.sort_by(&:created_at)
   end
 
   def create
     message = Message.new(message_params)
     message.user = current_user
-    message.chat = chat
+    message.chat = @chat
 
     if message.save
       serialized_message = ActiveModelSerializers::SerializableResource.new(message, {serializer: MessageSerializer}).as_json
-      MessagesChannel.broadcast_to chat, serialized_message
+      MessagesChannel.broadcast_to @chat, serialized_message
       head :ok
     else
       render json: {error: 'Unable to send message'}
@@ -26,6 +26,6 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   def find_chat
-    chat = Chat.find(params[:chat_id])
+    @chat = Chat.find(params[:chat_id])
   end
 end

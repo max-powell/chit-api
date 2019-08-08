@@ -1,7 +1,12 @@
 class Api::V1::MessagesController < ApplicationController
+  before_action :find_chat
+
+  def index
+    render json: chat.messages
+  end
+
   def create
     message = Message.new(message_params)
-    chat = Chat.find(params[:chat_id])
     message.user = current_user
     message.chat = chat
 
@@ -18,5 +23,9 @@ class Api::V1::MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:text)
+  end
+
+  def find_chat
+    chat = Chat.find(params[:chat_id])
   end
 end
